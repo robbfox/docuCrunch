@@ -7,16 +7,6 @@ body {
   text-align: center;
 }
 
-.header {
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-}
-
-.logo {
-  height: 60px;
-}
-
 .hero {
   display: flex;
   justify-content: space-between;
