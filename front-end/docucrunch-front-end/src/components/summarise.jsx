@@ -1,6 +1,9 @@
-import './App.css'
-function summarise(){
-    return(
-        <h1>Hiiiiii </h1>
-    )
+import './App.css';
+function summarisePage() {
+  return (
+    <div>
+      <p>Upload your file for summary</p>
+      <userInput />
+    </div>
+  );
 }

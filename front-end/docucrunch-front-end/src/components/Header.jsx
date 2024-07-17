@@ -1,13 +1,14 @@
-import crunchLogo from '../assets/docuCrunchLogo.png';
-
+import React from 'react';
+import crunchLogo from '../assets/logo.png';
+import '../App.css';
 function Header() {
-  <>
-    <div className="flex justify-start w-100 fixed top-0 bg-pink">
-      <div className="flex justify-start w-100">
-        <img src={crunchLogo} className="h-8" alt="react logo" />
+  return (
+    <>
+      <div className="top-0 py-5 fixed rounded-sm  w-full ">
+        <img src={crunchLogo} alt="DocuCrunch Logo" className="logo" />
       </div>
-    </div>
-  </>;
+    </>
+  );
 }
 
 export default Header;
