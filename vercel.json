@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "front-end/docucrunch-front-end/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "front-end/docucrunch-front-end/dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "front-end/docucrunch-front-end/$1"
+    }
+  ]
+}
