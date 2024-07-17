@@ -10,11 +10,16 @@ const Home = () => {
         <Header />
         <section className="hero h-screen">
           <div className="hero-text">
-            <h1>TEXT SUMMARISER: POWERED BY AI</h1>
+            <h1>
+              TEXT SUMMARISER : 
+              <span className="text-blue-200 text-6xl"> POWERED BY AI</span>{' '}
+            </h1>
             <p>Summarise lengthy articles and paragraphs with DocuCrunch</p>
-            <Link to="/start" className="btn-start">
-              Start
-            </Link>
+            <div className="flex justify-center mt-10">
+              <Link to="/start" className="btn-start">
+                Start
+              </Link>
+            </div>
           </div>
           <div className="hero-image">
             <img src={Hero} alt="Hero" />
