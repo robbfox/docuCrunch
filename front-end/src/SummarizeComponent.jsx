@@ -43,15 +43,21 @@ const SummarizeComponent = () => {
   };
 
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <textarea
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
         placeholder="Enter text to summarize"
+        style={{ width: '80%', height: '200px', margin: '20px 0', padding: '10px' }}
       />
-      <button onClick={handleSummarize}>Summarize</button>
-      {summary && <div>Summary: {summary}</div>}
-      {error && <div style={{ color: 'red' }}>{error}</div>}
+      <button onClick={handleSummarize} style={{ marginBottom: '20px' }}>Summarize</button>
+      {summary && (
+        <div style={{ border: '1px solid #ccc', borderRadius: '5px', padding: '10px', marginTop: '20px' }}>
+          <strong>Summary:</strong>
+          <div>{summary}</div>
+        </div>
+      )}
+      {error && <div style={{ color: 'red', marginTop: '20px' }}>{error}</div>}
     </div>
   );
 };
