@@ -8,6 +8,7 @@ public class SummaryToolPage extends BasePage{
     private By uploadIcon = By.id("upload-icon");
     private By summariseButton = By.id("summarise-button");
     private By summaryOutput = By.id("summary-output");
+    private By errorMessage = By.id("error-message");
 
     public SummaryToolPage(WebDriver webDriver) {
         super(webDriver);
@@ -31,5 +32,10 @@ public class SummaryToolPage extends BasePage{
     public String getSummary() {
         WebElement summaryElement = webDriver.findElement(summaryOutput);
         return summaryElement.getText();
+    }
+
+    public String getErrorMessage() {
+        WebElement error = webDriver.findElement(errorMessage);
+        return error.getText();
     }
 }
