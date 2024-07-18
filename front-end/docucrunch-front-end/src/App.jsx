@@ -1,16 +1,14 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
+// App.jsx or App.js
+import React from 'react';
+import SummarizeComponent from './SummarizeComponent';
 
-function App() {
-  const [count, setCount] = useState(0);
-
+const App = () => {
   return (
-    <>
-      <h1>Hello from the Dev team!!</h1>
-    </>
+    <div>
+      <h1>Text Summarization App</h1>
+      <SummarizeComponent />
+    </div>
   );
-}
+};
 
 export default App;
