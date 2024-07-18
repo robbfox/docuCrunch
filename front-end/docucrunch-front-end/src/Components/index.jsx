@@ -7,10 +7,10 @@ const Home = () => {
   return (
     <>
       <div className="Homepage">
-      <Link to="/summarise">
-      <Header />
-      </Link>
-       
+        <Link to="/summarise">
+          <Header />
+        </Link>
+
         <section className="hero h-screen">
           <div className="hero-text">
             <h1>
@@ -19,7 +19,10 @@ const Home = () => {
             </h1>
             <p>Summarise lengthy articles and paragraphs with DocuCrunch</p>
             <div className="flex justify-center mt-10">
-              <Link to="/summarise" className="btn-start">
+              <Link
+                to="/summarise"
+                className="bg-[#5095e4] text-white px-10 py-2 rounded-md hover:bg-[#1b344d] transition-colors"
+              >
                 Start
               </Link>
             </div>
