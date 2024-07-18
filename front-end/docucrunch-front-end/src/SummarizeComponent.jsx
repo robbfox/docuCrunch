@@ -1,4 +1,3 @@
-// SummarizeComponent.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -8,12 +7,9 @@ const SummarizeComponent = () => {
   const [error, setError] = useState('');
 
   const handleSummarize = async () => {
-    const url = 'https://portal.ayfie.com/api/summarize';
+    const url = 'http://localhost:5000/summarize'; // URL of your proxy server
     const body = {
-      language: 'auto',
-      text: inputText,
-      min_length: 5,
-      max_length: 100
+      inputText
     };
 
     try {
@@ -22,16 +18,15 @@ const SummarizeComponent = () => {
 
       const response = await axios.post(url, body, {
         headers: {
-          'Content-Type': 'application/json',
-          'X-API-KEY': import.meta.env.VITE_API_KEY
+          'Content-Type': 'application/json'
         }
       });
 
       console.log('Response status:', response.status);
       console.log('Response data:', response.data);
 
-      if (response.status === 200 && response.data.summary) {
-        setSummary(response.data.summary);
+      if (response.status === 200 && response.data.result) {
+        setSummary(response.data.result); // Use the 'result' field from the response
         setError('');
       } else {
         setError('Failed to summarize the text. Please try again.');
