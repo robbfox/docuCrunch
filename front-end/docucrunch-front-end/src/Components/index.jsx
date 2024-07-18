@@ -7,16 +7,19 @@ const Home = () => {
   return (
     <>
       <div className="Homepage">
-        <Header />
+      <Link to="/summarise">
+      <Header />
+      </Link>
+       
         <section className="hero h-screen">
           <div className="hero-text">
             <h1>
-              TEXT SUMMARISER : 
+              TEXT SUMMARISER :
               <span className="text-blue-200 text-6xl"> POWERED BY AI</span>{' '}
             </h1>
             <p>Summarise lengthy articles and paragraphs with DocuCrunch</p>
             <div className="flex justify-center mt-10">
-              <Link to="/start" className="btn-start">
+              <Link to="/summarise" className="btn-start">
                 Start
               </Link>
             </div>
