@@ -38,4 +38,8 @@ public class SummaryToolPageStepDefs extends StepDefsSuper{
         MatcherAssert.assertThat(summaryToolPage.getSummary(), Is.is(notNullValue()));
     }
 
+    @Then("I should see an error message {string}")
+    public void iShouldSeeAnErrorMessage(String errorMessage) {
+        MatcherAssert.assertThat(summaryToolPage.getErrorMessage(), Is.is(errorMessage));
+    }
 }
