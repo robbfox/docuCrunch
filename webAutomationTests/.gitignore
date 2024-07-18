@@ -168,6 +168,3 @@ replay_pid*
 chromedriver
 drivers/chromedriver
 
-# Allow src/test/java/webTestFramework/lib/pages specifically
-!src/test/java/webTestFramework/lib/pages/
-!src/test/java/webTestFramework/lib/pages/**
