@@ -1,10 +1,10 @@
 import React from 'react';
 import crunchLogo from '../assets/logo.png';
-import '../App.css';
+import '../styles/App.css';
 function Header() {
   return (
     <>
-      <div className="top-0 py-5 fixed rounded-sm  w-full ">
+      <div className="top-0 h-20 fixed rounded-sm  w-full ">
         <img src={crunchLogo} alt="DocuCrunch Logo" className="logo" />
       </div>
     </>
