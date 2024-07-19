@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import '../styles/App.css';
-
+import Header from './header.jsx';
 import Hero from '../assets/Hero.png';
-import Header from '../components/Header';
+
 const Home = () => {
   return (
     <>

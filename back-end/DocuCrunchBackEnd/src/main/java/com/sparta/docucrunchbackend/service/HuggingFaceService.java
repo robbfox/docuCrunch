@@ -1,51 +1,74 @@
 package com.sparta.docucrunchbackend.service;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class HuggingFaceService {
 
+    private static final Logger logger = LoggerFactory.getLogger(HuggingFaceService.class);
+
     @Value("${huggingface.api.token}")
     private String apiToken;
 
-    private static final String URL = "https://api-inference.huggingface.co/models/knkarthick/meeting-summary-samsum";
+    private final RestTemplate restTemplate;
 
-    public String summarizeMeeting(String inputText) throws IOException {
-        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            HttpPost request = new HttpPost(URL);
+    public HuggingFaceService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
-            // Set headers
-            request.addHeader("Authorization", "Bearer " + apiToken);
-            request.addHeader("Content-Type", "application/json");
+    public String summariseText(String text) {
+        String url = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn";
 
-            // Set input data
-            StringEntity inputEntity = new StringEntity("{\"inputs\": \"" + inputText + "\"}");
-            request.setEntity(inputEntity);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Bearer " + apiToken);
 
-            // Send the request
-            try (CloseableHttpResponse response = httpClient.execute(request)) {
-                if (response.getStatusLine().getStatusCode() == 200) {
-                    HttpEntity responseEntity = response.getEntity();
-                    return EntityUtils.toString(responseEntity);
-                } else {
-                    throw new RuntimeException("Request failed with status code: " + response.getStatusLine().getStatusCode());
-                }
-            }
+        // Create request payload
+        JSONObject json = new JSONObject();
+        json.put("inputs", text);
+        HttpEntity<String> entity = new HttpEntity<>(json.toString(), headers);
+
+        try {
+            // Make the API request
+            ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
+
+            logger.info("Response status: {}", response.getStatusCode());
+            logger.info("Response headers: {}", response.getHeaders());
+            String responseBodyString = response.getBody();
+            logger.info("Response body: {}", responseBodyString);
+
+            // Handle API response
+            return handleResponse(responseBodyString);
+
+        } catch (Exception e) {
+            logger.error("Failed to summarize text: {}", text, e);
+            throw new RuntimeException("Failed to summarize text", e);
         }
     }
 
+    private String handleResponse(String responseBodyString) {
+        try {
+            // Ensure the response is in JSON format
+            JSONArray responseBodyArray = new JSONArray(responseBodyString);
 
+            // Check if the array is not empty
+            if (responseBodyArray.length() > 0) {
+                JSONObject responseBody = responseBodyArray.getJSONObject(0);
+                return responseBody.optString("summary_text", "No summary text found");
+            } else {
+                return "No summary text found";
+            }
+
+        } catch (Exception e) {
+            logger.error("Failed to parse response body as JSON: {}", responseBodyString, e);
+            throw new RuntimeException("Failed to parse response body as JSON", e);
+        }
+    }
 }
-

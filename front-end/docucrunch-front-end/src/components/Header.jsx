@@ -1,7 +1,7 @@
 import React from 'react';
 import crunchLogo from '../assets/logo.png';
 import '../styles/App.css';
-function Header() {
+function header() {
   return (
     <>
       <div className="top-0 h-20 fixed rounded-sm  w-full ">
@@ -11,4 +11,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default header;
