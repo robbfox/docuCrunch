@@ -7,9 +7,15 @@ const SummarizeComponent = () => {
   const [error, setError] = useState('');
 
   const handleSummarize = async () => {
-    const url = 'http://localhost:5000/summarize'; // URL of your proxy server
+    const url = 'https://api-inference.huggingface.co/models/facebook/bart-large-cnn'; // Example model from Hugging Face
+
     const body = {
-      inputText
+      inputs: inputText,
+      parameters: {
+        max_new_tokens: 100,
+        min_length: 5,
+        max_length: 100
+      }
     };
 
     try {
@@ -18,6 +24,7 @@ const SummarizeComponent = () => {
 
       const response = await axios.post(url, body, {
         headers: {
+          'Authorization': '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', // Replace with your actual API key
           'Content-Type': 'application/json'
         }
       });
@@ -25,20 +32,15 @@ const SummarizeComponent = () => {
       console.log('Response status:', response.status);
       console.log('Response data:', response.data);
 
-      if (response.status === 200 && response.data.result) {
-        setSummary(response.data.result); // Use the 'result' field from the response
+      if (response.status === 200 && response.data && response.data.length > 0) {
+        setSummary(response.data[0].generated_text); // Assuming the response structure matches
         setError('');
       } else {
         setError('Failed to summarize the text. Please try again.');
       }
     } catch (error) {
       console.error('Error summarizing text:', error);
-      if (error.response) {
-        console.error('Response data:', error.response.data);
-        setError(`Failed to summarize the text: ${error.response.data.message}`);
-      } else {
-        setError('Failed to summarize the text. Please check your network connection and API key.');
-      }
+      setError('Failed to summarize the text. Please check your network connection and API key.');
     }
   };
 
