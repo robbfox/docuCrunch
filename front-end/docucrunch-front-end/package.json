@@ -11,10 +11,15 @@
     "start-backend": "node ../../back-end/server.js"
   },
   "dependencies": {
-    "axios": "^1.7.2",
-    "gradio": "^0.1.0",
+
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.39",
+=======
+
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-pdftotext": "^1.3.0",
+    "react-router-dom": "^6.25.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
@@ -25,6 +30,7 @@
     "eslint-plugin-react": "^7.34.3",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
+    "tailwindcss": "^3.4.6",
     "vite": "^5.3.4"
   }
 }
