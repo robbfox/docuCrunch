@@ -21,7 +21,6 @@ public class SummarisationController {
 
     @PostMapping
     public String summarise(@RequestBody String summaryRequest) throws IOException {
-
         return HuggingFaceService.summariseText(summaryRequest);
     }
 

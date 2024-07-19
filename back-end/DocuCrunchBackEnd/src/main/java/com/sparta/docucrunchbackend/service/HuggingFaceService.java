@@ -30,13 +30,13 @@ public class HuggingFaceService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", "Bearer " + apiToken);
 
-        // Create request payload
+
         JSONObject json = new JSONObject();
         json.put("inputs", text);
         HttpEntity<String> entity = new HttpEntity<>(json.toString(), headers);
 
         try {
-            // Make the API request
+
             ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
 
             logger.info("Response status: {}", response.getStatusCode());
@@ -44,22 +44,21 @@ public class HuggingFaceService {
             String responseBodyString = response.getBody();
             logger.info("Response body: {}", responseBodyString);
 
-            // Handle API response
+
             return handleResponse(responseBodyString);
 
         } catch (Exception e) {
-            logger.error("Failed to summarize text: {}", text, e);
-            throw new RuntimeException("Failed to summarize text", e);
+            logger.error("Failed to summarise text: {}", text, e);
+            throw new RuntimeException("Failed to summarise text", e);
         }
     }
 
     private String handleResponse(String responseBodyString) {
         try {
-            // Ensure the response is in JSON format
             JSONArray responseBodyArray = new JSONArray(responseBodyString);
 
-            // Check if the array is not empty
-            if (responseBodyArray.length() > 0) {
+
+            if (!responseBodyArray.isEmpty()) {
                 JSONObject responseBody = responseBodyArray.getJSONObject(0);
                 return responseBody.optString("summary_text", "No summary text found");
             } else {
