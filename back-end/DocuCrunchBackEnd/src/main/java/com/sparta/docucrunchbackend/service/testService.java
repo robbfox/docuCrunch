@@ -1,4 +1,5 @@
 package com.sparta.docucrunchbackend.service;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -7,15 +8,18 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class testService {
 
+    private static final Logger logger = LoggerFactory.getLogger(testService.class);
 
     @Value("${huggingface.api.token}")
     private String apiToken;
-
 
     private final RestTemplate restTemplate;
 
@@ -30,7 +34,7 @@ public class testService {
         // Set up the headers
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Authorization", "Bearer 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");
+        headers.set("Authorization", "Bearer " + apiToken);
 
         // Create the request body
         JSONObject json = new JSONObject();
@@ -42,8 +46,35 @@ public class testService {
         // Make the POST request
         ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
 
-        // Extract the summary from the response
-        JSONObject responseBody = new JSONObject(response.getBody());
-        return responseBody.getJSONArray("summary_text").getString(0);
+        // Log response details for debugging
+        logger.info("Response status: {}", response.getStatusCode());
+        logger.info("Response headers: {}", response.getHeaders());
+        String responseBodyString = response.getBody();
+        logger.info("Response body: {}", responseBodyString);
+
+        try {
+            // Preprocess the response to correct JSON format issues
+            responseBodyString = preprocessResponse(responseBodyString);
+
+            // Extract the summary from the response
+            JSONArray responseBodyArray = new JSONArray(responseBodyString);
+            JSONObject responseBody = responseBodyArray.getJSONObject(0);
+            return responseBody.getString("summary_text");
+        } catch (Exception e) {
+            logger.error("Failed to parse response body as JSON: {}", responseBodyString, e);
+            throw new RuntimeException("Failed to parse response body as JSON", e);
+        }
+    }
+
+    private String preprocessResponse(String response) {
+        // This method preprocesses the response to correct JSON format issues
+        // For this specific case, we might need to correct quotes and structure
+        // Implement specific corrections as needed for your API's response format
+
+        // Example of replacing single quotes with double quotes and fixing JSON structure
+        response = response.replace("'", "\"");
+
+        // Further corrections might be needed based on the actual response pattern
+        return response;
     }
 }
