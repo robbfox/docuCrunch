@@ -20,7 +20,7 @@ public class HuggingFaceService {
     @Value("${huggingface.api.token}")
     private String apiToken;
 
-    private static final String URL = "https://api-inference.huggingface.co/models/knkarthick/meeting-summary-samsum";
+    private static final String URL = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn";
 
     public String summarizeMeeting(String inputText) throws IOException {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
