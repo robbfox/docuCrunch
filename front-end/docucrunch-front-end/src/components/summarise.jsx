@@ -10,7 +10,7 @@ function SummarisePage() {
   function extractText(event) {
     const file = event.target.files[0];
     pdfToText(file)
-      .then((text) => setTextInput(text))
+      .then((text) => setSummary(text))
       .catch((error) => console.error('Failed to extract text from pdf'));
   }
 
