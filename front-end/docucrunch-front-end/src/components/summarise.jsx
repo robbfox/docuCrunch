@@ -7,19 +7,36 @@ import { FaRegTrashAlt } from 'react-icons/fa';
 import pdfToText from 'react-pdftotext';
 import { IoMdCopy } from 'react-icons/io';
 import axios from 'axios';
-
+import { IoMdClose } from 'react-icons/io';
 function SummarisePage() {
   const [textInput, setTextInput] = useState('');
   const [summary, setSummary] = useState('');
   const [summaryType, setSummaryType] = useState('articles');
+  const [alert, setAlert] = useState('');
   function extractText(event) {
     const file = event.target.files[0];
+    if (!file) {
+      setAlert('No file selected');
+      return;
+    }
+
+    if (file.type !== 'application/pdf') {
+      setAlert('Unsupported file format. Please upload a PDF file');
+    }
     pdfToText(file)
       .then((text) => setTextInput(text))
-      .catch((error) => console.error('Failed to extract text from pdf'));
+      .catch((error) => {
+        console.error('Failed to extract text from pdf', error);
+        setAlert('Failed to extract text from PDF. Please try again later');
+      });
   }
   async function handlesubmit(e) {
     e.preventDefault();
+
+    if (!textInput.trim()) {
+      setAlert('No input provided. Please upload a file and try again');
+      return;
+    }
     try {
       const response = await axios.post('http://localhost:8080/api/summarise', {
         text: textInput,
@@ -31,6 +48,9 @@ function SummarisePage() {
       console.error(
         'Failed to fecth summary from the server.Please try again later',
         error
+      );
+      setAlert(
+        'Failed to fetch summary from the server. Give it another try later'
       );
     }
   }
@@ -55,8 +75,18 @@ function SummarisePage() {
       </Link>
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
         <div className="bg-white shadow-md rounded-lg p-10 w-full max-w-7xl h-[80%]">
+          {alert && (
+            <div className="mb-4 p-4 bg-red-100 text-red-700 border border-red-300 rounded-md">
+              {alert}
+              <button onClick={() => setAlert('')} className="float-right">
+                <IoMdClose />
+              </button>
+            </div>
+          )}
+        </div>
+        <div className="bg-white shadow-md rounded-lg p-10 w-full max-w-7xl h-[80%]">
           <div className="flex flex-col md:flex-row gap-4">
-            {/* File Upload Section */}
+            {/* file upload component */}
             <div className="w-full md:w-1/3 p-4 border-r border-gray-200">
               <label
                 htmlFor="file-upload"
@@ -74,10 +104,10 @@ function SummarisePage() {
               </label>
             </div>
 
-            {/* Text Input and Summary Display */}
+            {/* text input and summary display */}
             <div className="w-full md:w-3/3 p-4">
               <div className="flex flex-col md:flex-row gap-4">
-                {/* User Input */}
+                {/* user input extracted */}
                 <div className="flex-1 border border-gray-300 p-4 rounded-md bg-gray-50">
                   <h2 className="text-xl text-center font-semibold mb-2 text-[#1b344d] border-b border-1 border-[#5095e410]">
                     Input text
@@ -90,7 +120,7 @@ function SummarisePage() {
                   />
                 </div>
 
-                {/* Summary */}
+                {/* summary output display */}
                 <div className="flex-1 border border-gray-300 p-4 rounded-md bg-gray-50 relative">
                   <h2 className="text-xl text-center font-semibold mb-2 text-[#1b344d] border-b border-1 border-[#5095e410]">
                     Summary
