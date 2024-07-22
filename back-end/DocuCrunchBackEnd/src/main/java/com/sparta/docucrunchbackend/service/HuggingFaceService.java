@@ -26,6 +26,15 @@ public class HuggingFaceService {
     public String summariseText(String text) {
         String url = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn";
 
+        return getResponse(text, url);
+    }
+    public String summariseMinutes(String text){
+        String url = "https://api-inference.huggingface.co/models/knkarthick/meeting-summary-samsum";
+
+        return getResponse(text, url);
+    }
+
+    private String getResponse(String text, String url) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", "Bearer " + apiToken);
@@ -52,6 +61,7 @@ public class HuggingFaceService {
             throw new RuntimeException("Failed to summarise text", e);
         }
     }
+
 
     private String handleResponse(String responseBodyString) {
         try {
