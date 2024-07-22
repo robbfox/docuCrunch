@@ -8,6 +8,7 @@ import pdfToText from 'react-pdftotext';
 import { IoMdCopy } from 'react-icons/io';
 import axios from 'axios';
 import { IoMdClose } from 'react-icons/io';
+import { TbAlertCircle } from 'react-icons/tb';
 function SummarisePage() {
   const [textInput, setTextInput] = useState('');
   const [summary, setSummary] = useState('');
@@ -76,9 +77,16 @@ function SummarisePage() {
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
         <div className="bg-white shadow-md rounded-lg p-10 w-full max-w-7xl h-[80%]">
           {alert && (
-            <div className="mb-4 p-4 bg-red-100 text-red-700 border border-red-300 rounded-md">
+            <div className="mb-4 p-4 bg-[#fbeaea] text-red-800  rounded-md">
+              <TbAlertCircle
+                size={25}
+                className="float-left  text-red-9000 mr-2"
+              />
               {alert}
-              <button onClick={() => setAlert('')} className="float-right">
+              <button
+                onClick={() => setAlert('')}
+                className="float-right text-red-9000"
+              >
                 <IoMdClose />
               </button>
             </div>
