@@ -1,7 +1,6 @@
 package com.sparta.docucrunchbackend.controller;
 
 import com.sparta.docucrunchbackend.service.HuggingFaceService;
-import com.sparta.docucrunchbackend.service.testService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,18 +11,17 @@ import java.io.IOException;
 public class SummarisationController {
   
      private final HuggingFaceService huggingFaceService;
-     private final testService testService;
+     private final HuggingFaceService HuggingFaceService;
 
      @Autowired
-     public SummarisationController(HuggingFaceService huggingFaceService, testService testService){
+     public SummarisationController(HuggingFaceService huggingFaceService, HuggingFaceService HuggingFaceService){
         this.huggingFaceService = huggingFaceService;
-        this.testService = testService;
+        this.HuggingFaceService = HuggingFaceService;
     }
 
     @PostMapping
     public String summarise(@RequestBody String summaryRequest) throws IOException {
-
-        return testService.summariseText(summaryRequest);
+        return HuggingFaceService.summariseText(summaryRequest);
     }
 
 
