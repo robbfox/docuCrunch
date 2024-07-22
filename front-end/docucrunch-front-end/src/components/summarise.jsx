@@ -4,8 +4,9 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import fileUpload from '../assets/FileUpload.png';
 import pdfToText from 'react-pdftotext';
+import { IoMdCopy } from 'react-icons/io';
 import axios from 'axios';
-// page summarisation component
+
 function SummarisePage() {
   const [textInput, setTextInput] = useState('');
   const [summary, setSummary] = useState('');
@@ -19,8 +20,6 @@ function SummarisePage() {
   async function handlesubmit(e) {
     e.preventDefault();
     try {
-      console.log('Sending request to the server');
-
       const response = await axios.post('http://localhost:8080/api/summarise', {
         text: textInput,
         type: summaryType,
@@ -33,6 +32,16 @@ function SummarisePage() {
         error
       );
     }
+  }
+  function handleCopy() {
+    navigator.clipboard.writeText(summary).then(
+      () => {
+        alert('Summary copied to clipboard!');
+      },
+      (err) => {
+        console.error('Could not copy text: ', err);
+      }
+    );
   }
 
   return (
@@ -61,49 +70,54 @@ function SummarisePage() {
             </div>
             <div className="w-full md:w-1/2 p-4">
               <div className="border border-gray-300 p-4 rounded-md h-full bg-gray-50">
-                {summary ? (
-                  <p>{summary}</p>
-                ) : (
-                  <p className="text-[#737373]">
-                    Your summarised text will appear here
-                  </p>
-                )}
+                <textarea
+                  value={summary}
+                  onChange={(e) => setSummary(e.target.value)}
+                  className="w-full h-full p-2 border-none bg-gray-50 focus:outline-none"
+                  placeholder="Your summarised text will appear here"
+                />
+                <button
+                  className=" text-gray-500 absolute bottom-[35%] right-[47%]  hover:text-blue-700"
+                  onClick={handleCopy}
+                >
+                  <IoMdCopy />
+                </button>
               </div>
             </div>
           </div>
-          <div className="mt-6 flex justify-between items-center">
-            <div>
-              <label htmlFor="summary-type" className="mr-4">
-                Document type:
-              </label>
-              <label className="mr-4">
-                <input
-                  type="radio"
-                  value="articles"
-                  checked={summaryType === 'articles'}
-                  onChange={(e) => setSummaryType(e.target.value)}
-                  className="mr-2"
-                />
-                Articles
-              </label>
-              <label className="mr-4">
-                <input
-                  type="radio"
-                  value="minutes"
-                  checked={summaryType === 'minutes'}
-                  onChange={(e) => setSummaryType(e.target.value)}
-                  className="mr-2"
-                />
-                Minutes
-              </label>
-            </div>
-            <button
-              className="bg-[#5095e4] text-white px-6 py-2 rounded-md hover:bg-[#1b344d] transition-colors"
-              onClick={handlesubmit}
-            >
-              Summarise
-            </button>
+        </div>
+        <div className="mt-6 flex justify-between items-center">
+          <div>
+            <label htmlFor="summary-type" className="mr-4 text-[#737373]">
+              Document type:
+            </label>
+            <label className="mr-4">
+              <input
+                type="radio"
+                value="articles"
+                checked={summaryType === 'articles'}
+                onChange={(e) => setSummaryType(e.target.value)}
+                className="mr-2"
+              />
+              Article
+            </label>
+            <label className="mr-4">
+              <input
+                type="radio"
+                value="minutes"
+                checked={summaryType === 'minutes'}
+                onChange={(e) => setSummaryType(e.target.value)}
+                className="mr-2"
+              />
+              Minutes
+            </label>
           </div>
+          <button
+            className="bg-[#5095e4] text-white px-6 py-2 rounded-md hover:bg-[#1b344d] transition-colors"
+            onClick={handlesubmit}
+          >
+            Summarise
+          </button>
         </div>
       </div>
     </div>
