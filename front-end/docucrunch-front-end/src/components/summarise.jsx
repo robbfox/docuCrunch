@@ -9,6 +9,7 @@ import axios from 'axios';
 function SummarisePage() {
   const [textInput, setTextInput] = useState('');
   const [summary, setSummary] = useState('');
+  const [summaryType, setSummaryType] = useState('articles');
   function extractText(event) {
     const file = event.target.files[0];
     pdfToText(file)
@@ -22,6 +23,7 @@ function SummarisePage() {
 
       const response = await axios.post('http://localhost:8080/api/summarise', {
         text: textInput,
+        type: summaryType,
       });
       console.log(response.data);
       setSummary(response.data);
@@ -58,7 +60,7 @@ function SummarisePage() {
               </label>
             </div>
             <div className="w-full md:w-1/2 p-4">
-              <div className="border border-gray-300 p-4 rounded-md h-full  bg-gray-50">
+              <div className="border border-gray-300 p-4 rounded-md h-full bg-gray-50">
                 {summary ? (
                   <p>{summary}</p>
                 ) : (
@@ -69,7 +71,32 @@ function SummarisePage() {
               </div>
             </div>
           </div>
-          <div className="mt-6 flex justify-center">
+          <div className="mt-6 flex justify-between items-center">
+            <div>
+              <label htmlFor="summary-type" className="mr-4">
+                Document type:
+              </label>
+              <label className="mr-4">
+                <input
+                  type="radio"
+                  value="articles"
+                  checked={summaryType === 'articles'}
+                  onChange={(e) => setSummaryType(e.target.value)}
+                  className="mr-2"
+                />
+                Articles
+              </label>
+              <label className="mr-4">
+                <input
+                  type="radio"
+                  value="minutes"
+                  checked={summaryType === 'minutes'}
+                  onChange={(e) => setSummaryType(e.target.value)}
+                  className="mr-2"
+                />
+                Minutes
+              </label>
+            </div>
             <button
               className="bg-[#5095e4] text-white px-6 py-2 rounded-md hover:bg-[#1b344d] transition-colors"
               onClick={handlesubmit}
