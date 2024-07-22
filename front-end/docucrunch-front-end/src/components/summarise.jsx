@@ -3,7 +3,7 @@ import Header from './Header.jsx';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import fileUpload from '../assets/FileUpload.png';
-import { TiDeleteOutline } from 'react-icons/ti';
+import { FaRegTrashAlt } from 'react-icons/fa';
 import pdfToText from 'react-pdftotext';
 import { IoMdCopy } from 'react-icons/io';
 import axios from 'axios';
@@ -44,7 +44,10 @@ function SummarisePage() {
       }
     );
   }
-
+  function handleClear() {
+    setTextInput('');
+    setSummary('');
+  }
   return (
     <div>
       <Link to="/">
@@ -92,7 +95,7 @@ function SummarisePage() {
                   <h2 className="text-xl text-center font-semibold mb-2 text-[#1b344d] border-b border-1 border-[#5095e410]">
                     Summary
                   </h2>
-                  <textaream
+                  <textarea
                     value={summary}
                     onChange={(e) => setSummary(e.target.value)}
                     className="w-full h-64 p-2 border-none bg-gray-50 focus:outline-none resize-none"
@@ -108,8 +111,12 @@ function SummarisePage() {
               </div>
             </div>
           </div>
+          {/* clear text area component */}
           <div className="flex justify-end w-100">
-            <TiDeleteOutline />
+            <FaRegTrashAlt
+              className="hover:text-[#5095e4]"
+              onClick={handleClear}
+            />
           </div>
         </div>
 
