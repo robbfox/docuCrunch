@@ -1,10 +1,11 @@
 import '../styles/App.css';
-import Header from './header.jsx';
+import Header from './Header.jsx';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import fileUpload from '../assets/FileUpload.png';
 import pdfToText from 'react-pdftotext';
 import axios from 'axios';
+// page summarisation component
 function SummarisePage() {
   const [textInput, setTextInput] = useState('');
   const [summary, setSummary] = useState('');

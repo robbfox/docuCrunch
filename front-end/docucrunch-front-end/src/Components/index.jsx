@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import '../styles/App.css';
-import Header from './header.jsx';
+import Header from './Header';
 import Hero from '../assets/Hero.png';
 
 const Home = () => {
