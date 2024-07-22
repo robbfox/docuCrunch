@@ -28,11 +28,13 @@ public class HuggingFaceService {
 
         return getResponse(text, url);
     }
+
     public String summariseMinutes(String text){
         String url = "https://api-inference.huggingface.co/models/knkarthick/meeting-summary-samsum";
 
         return getResponse(text, url);
     }
+
 
     private String getResponse(String text, String url) {
         HttpHeaders headers = new HttpHeaders();

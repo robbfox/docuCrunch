@@ -6,8 +6,7 @@ import com.sparta.docucrunchbackend.service.HuggingFaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-        import java.io.IOException;
+import java.io.IOException;
 import java.util.Map;
 
 @RestController
@@ -39,6 +38,7 @@ public class SummarisationController {
             return ResponseEntity.badRequest().body("Invalid summary type");
         }
         return ResponseEntity.ok(summaryOutput);
+
     }
 
 
