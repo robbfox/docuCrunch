@@ -13,16 +13,16 @@ function SummarisePage() {
   const [textInput, setTextInput] = useState('');
   const [summary, setSummary] = useState('');
   const [summaryType, setSummaryType] = useState('articles');
-  const [alert, setAlert] = useState('');
+  const [alertMessage, setAlertMessage] = useState('');
   function extractText(event) {
     const file = event.target.files[0];
     if (!file) {
-      setAlert('No file selected');
+      setAlertMessage('No file selected');
       return;
     }
 
     if (file.type !== 'application/pdf') {
-      setAlert('Unsupported file format. Please upload a PDF file');
+      setAlertMessage('Unsupported file format. Please upload a PDF file');
     }
     pdfToText(file)
       .then((text) => setTextInput(text))
@@ -35,7 +35,7 @@ function SummarisePage() {
     e.preventDefault();
 
     if (!textInput.trim()) {
-      setAlert('No input provided. Please upload a file and try again');
+      setAlertMessage('No input provided. Please upload a file and try again');
       return;
     }
     try {
@@ -50,15 +50,15 @@ function SummarisePage() {
         'Failed to fecth summary from the server.Please try again later',
         error
       );
-      setAlert(
-        'Failed to fetch summary from the server. Give it another try later'
+      setAlertMessage(
+        'Failed to fetch summary from the server. Please make sure you have selected the correct input and try again later'
       );
     }
   }
   function handleCopy() {
     navigator.clipboard.writeText(summary).then(
       () => {
-        alert('Summary copied to clipboard!');
+        alert('copied to clipboard.');
       },
       (err) => {
         console.error('Could not copy text: ', err);
@@ -69,6 +69,7 @@ function SummarisePage() {
     setTextInput('');
     setSummary('');
   }
+
   return (
     <div>
       <Link to="/">
@@ -76,15 +77,15 @@ function SummarisePage() {
       </Link>
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
         <div className="bg-white shadow-md rounded-lg p-10 w-full max-w-7xl h-[80%]">
-          {alert && (
+          {alertMessage && (
             <div className="mb-4 p-4 bg-[#fbeaea] text-red-800  rounded-md">
               <TbAlertCircle
                 size={25}
                 className="float-left  text-red-9000 mr-2"
               />
-              {alert}
+              {alertMessage}
               <button
-                onClick={() => setAlert('')}
+                onClick={() => setAlertMessage('')}
                 className="float-right text-red-9000"
               >
                 <IoMdClose />
