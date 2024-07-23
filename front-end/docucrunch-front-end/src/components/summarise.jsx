@@ -51,7 +51,7 @@ function SummarisePage() {
         error
       );
       setAlertMessage(
-        'Failed to fetch summary from the server. Please make sure you have selected the correct input and try again later please'
+        'Failed to fetch summary from the server. Please make sure you have selected the correct input and try again later'
       );
     }
   }
