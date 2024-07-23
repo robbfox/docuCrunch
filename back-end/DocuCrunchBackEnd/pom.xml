@@ -62,7 +62,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.sparta.docucrunchbackend</mainClass>
+                    <mainClass>com.sparta.docucrunchbackend.DocuCrunchBackEndApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>
